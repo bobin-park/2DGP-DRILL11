@@ -3,16 +3,13 @@ world = [[] for _ in range(4)]
 def add_object(o, depth = 0):
     world[depth].append(o)
 
-
 def add_objects(ol, depth = 0):
     world[depth] += ol
-
 
 def update():
     for layer in world:
         for o in layer:
             o.update()
-
 
 def render():
     for layer in world:
@@ -35,12 +32,12 @@ def remove_object(o):
 
     raise ValueError('Cannot delete non existing object')
 
-
 def clear():
     global world
 
     for layer in world:
         layer.clear()
+
 def collide(a, b):
     left_a, bottom_a, right_a, top_a = a.get_bb()
     left_b, bottom_b, right_b, top_b = b.get_bb()
@@ -52,13 +49,14 @@ def collide(a, b):
 
 collision_pairs = {}
 def add_collision_pair(group, a, b):
-    if group not in collision_pairs:
-        print(f'Added new group {group}')
-    collision_pairs[group] = [[], []]
+    if group not in collision_pairs:#처음 추가되는 구릅이면
+        collision_pairs[group] = [[], []]  # 해당 그룹에 대해 초기화
+        # print(f'Added new group {group}')
     if a:
         collision_pairs[group][0].append(a)
     if b:
         collision_pairs[group][1].append(b)
+
 def handle_collisions():
     for group, pairs in collision_pairs.items():
         for a in pairs[0]:
@@ -66,10 +64,3 @@ def handle_collisions():
                 if collide(a, b):
                     a.handle_collision(group, b)
                     b.handle_collision(group, a)
-
-
-
-
-
-
-
