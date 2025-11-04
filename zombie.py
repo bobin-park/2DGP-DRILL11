@@ -67,6 +67,7 @@ class Zombie:
                 self.size=150
             elif self.ball_num==2:
                 game_world.remove_object(self)
+
     #     if group == 'boy:zombie':
     #         game_world.remove_object(self)
     #     elif group == 'zombie:ball':
