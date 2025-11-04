@@ -20,7 +20,6 @@ def handle_events():
             game_framework.quit()
         else:
             boy.handle_event(event)
-
 def init():
     global boy
     global balls
@@ -35,25 +34,20 @@ def init():
     balls = [Ball(random.randint(100,1500),60,0,) for _ in range(30)]
     game_world.add_objects(balls,1)
 
+    zombies = [Zombie() for _ in range(4)]
+    game_world.add_objects(zombies, 1)
+
     #소년과 볼 사이에 충돌검사가 필요하다는 정보를 추가
     game_world.add_collision_pair('boy:ball', boy, None)
     for ball in balls:
         game_world.add_collision_pair('boy:ball', None, ball)
-
-
-
 def update():
     game_world.update()
     game_world.handle_collisions()
-
-
-
 def draw():
     clear_canvas()
     game_world.render()
     update_canvas()
-
-
 def finish():
     game_world.clear()
 
