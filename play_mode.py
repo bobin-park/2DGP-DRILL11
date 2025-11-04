@@ -32,6 +32,7 @@ def init():
 
     grass = Grass()
     game_world.add_object(grass, 0)
+    game_world.add_collision_pair('grass:ball', grass, None)
 
     boy = Boy()
     game_world.add_object(boy, 1)
