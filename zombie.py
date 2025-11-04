@@ -61,16 +61,15 @@ class Zombie:
 
     def handle_event(self, event):
         pass
+
     def handle_collision(self, group, other):
         if group == 'zombie:ball':
-            self.ball_num += 1
-            if self.ball_num==1:
-                self.size=150
-            elif self.ball_num==2:
-                game_world.remove_object(self)
+            if getattr(other, 'stopped', False):
+                return
 
-    #     if group == 'boy:zombie':
-    #         game_world.remove_object(self)
-    #     elif group == 'zombie:ball':
-    #         self.stopped = True
+            self.ball_num += 1
+            if self.ball_num == 1:
+                self.size = 150
+            elif self.ball_num == 2:
+                game_world.remove_object(self)
 
