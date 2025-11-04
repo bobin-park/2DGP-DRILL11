@@ -4,6 +4,7 @@ frame_time = 0.0
 running = None
 stack = None
 
+stop = False
 def change_mode(mode):
     global stack
     if (len(stack) > 0):
