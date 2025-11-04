@@ -154,9 +154,7 @@ class Boy:
             game_world.add_object(ball, 1)
             game_world.add_collision_pair('grass:ball', None, ball)
             game_world.add_collision_pair('boy:ball', None, ball)
-            # game_world.add_collision_pair('ball:zombie', ball, None)
-            # for zombie in zombies:
-            #     game_world.add_collision_pair('boy:zombie', None, zombie)
+            game_world.add_collision_pair('zombie:ball', ball, None)
 
     def get_bb(self):
         #상태에 따라 다르려면 스테이트머신에게 넘긴다.
