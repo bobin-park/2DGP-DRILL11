@@ -52,6 +52,7 @@ class Zombie:
 
 
     def draw(self):
+        self.y=50+self.size//2
         if self.dir < 0:
             Zombie.images['Walk'][int(self.frame)].composite_draw(0, 'h', self.x, self.y, self.size, self.size)
         else:
