@@ -20,8 +20,6 @@ class Ball:
         self.image.draw(self.x, self.y)
         draw_rectangle(*self.get_bb())
 
-    def get_bb(self):
-        return self.x - 10, self.y - 10, self.x + 10, self.y + 10
     def update(self):
         if self.stopped:
             return
@@ -32,13 +30,11 @@ class Ball:
         # y 축 속도에 중력 가속도 적용
         self.yv -= GRAVITY * game_framework.frame_time  # m/s
 
+    def get_bb(self):
+        return self.x - 10, self.y - 10, self.x + 10, self.y + 10
+
     def handle_collision(self, group, other):
         if group == 'boy:ball':
             game_world.remove_object(self)
         elif group == 'grass:ball':
             self.stopped = True
-
-
-
-
-

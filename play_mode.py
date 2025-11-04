@@ -24,13 +24,6 @@ def handle_events():
 def init():
     global boy
     global balls
-    balls = [Ball(random.randint(100, 1600 - 100), 60, 0) for _ in range(30)]
-    game_world.add_objects(balls, 1)
-
-    #소년과 공 사이의 충돌 검사가 필요하다는 내용 추가
-    game_world.add_collision_pair('boy:ball', boy, None)
-    for ball in balls:
-        game_world.add_collision_pair('boy:ball', None, ball)
 
     grass = Grass()
     game_world.add_object(grass, 0)
@@ -39,17 +32,19 @@ def init():
     boy = Boy()
     game_world.add_object(boy, 1)
 
+    balls = [Ball(random.randint(100,1500),60,0,) for _ in range(30)]
+    game_world.add_objects(balls,1)
+
+    #소년과 볼 사이에 충돌검사가 필요하다는 정보를 추가
+    game_world.add_collision_pair('boy:ball', boy, None)
+    for ball in balls:
+        game_world.add_collision_pair('boy:ball', None, ball)
+
+
 
 def update():
     game_world.update()
     game_world.handle_collisions()
-
-    for ball in balls:
-        if game_world.collide(boy, ball):
-            print('COLLISION boy : ball')
-            boy.ball_count += 1
-            game_world.remove_object(ball)
-            balls.remove(ball)
 
 
 
@@ -64,12 +59,4 @@ def finish():
 
 def pause(): pass
 def resume(): pass
-def collide(a, b):
-    left_a, bottom_a, right_a, top_a = a.get_bb()
-    left_b, bottom_b, right_b, top_b = b.get_bb()
-    if left_a > right_b: return False
-    if right_a < left_b: return False
-    if top_a < bottom_b: return False
-    if bottom_a > top_b: return False
-    return True
 

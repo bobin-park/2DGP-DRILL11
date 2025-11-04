@@ -44,9 +44,9 @@ TIME_PER_ACTION = 0.5
 ACTION_PER_TIME = 1.0 / TIME_PER_ACTION
 FRAMES_PER_ACTION = 8
 
-def handle_collision(self, group, other):
-    if group == 'boy:ball':
-        self.ball_count += 1
+
+
+
 
 
 
@@ -75,6 +75,8 @@ class Idle:
             self.boy.image.clip_draw(int(self.boy.frame) * 100, 300, 100, 100, self.boy.x, self.boy.y)
         else: # face_dir == -1: # left
             self.boy.image.clip_draw(int(self.boy.frame) * 100, 200, 100, 100, self.boy.x, self.boy.y)
+
+
 class Sleep:
 
     def __init__(self, boy):
@@ -98,6 +100,9 @@ class Sleep:
             self.boy.image.clip_composite_draw(int(self.boy.frame) * 100, 300, 100, 100, 3.141592/2, '', self.boy.x - 25, self.boy.y - 25, 100, 100)
         else:
             self.boy.image.clip_composite_draw(int(self.boy.frame) * 100, 200, 100, 100, -3.141592/2, '', self.boy.x + 25, self.boy.y - 25, 100, 100)
+
+
+
 class Run:
     def __init__(self, boy):
         self.boy = boy
@@ -121,6 +126,7 @@ class Run:
             self.boy.image.clip_draw(int(self.boy.frame) * 100, 100, 100, 100, self.boy.x, self.boy.y)
         else: # face_dir == -1: # left
             self.boy.image.clip_draw(int(self.boy.frame) * 100, 0, 100, 100, self.boy.x, self.boy.y)
+
 
 class Boy:
     def __init__(self):
@@ -147,8 +153,7 @@ class Boy:
             }
         )
 
-    def get_bb(self):
-        return self.x - 20, self.y - 40, self.x + 20, self.y + 40
+
 
     def update(self):
         self.state_machine.update()
@@ -170,4 +175,10 @@ class Boy:
             game_world.add_collision_pair('grass:ball', None, ball)
             game_world.add_collision_pair('boy:ball', None, ball)
 
+    def get_bb(self):
+        #상태에 따라 다르려면 스테이트머신에게 넘긴다.
+        return self.x - 20, self.y - 50, self.x + 20, self.y + 40
 
+    def handle_collision(self, group, other):
+        if group == 'boy:ball':
+            self.ball_count += 1
