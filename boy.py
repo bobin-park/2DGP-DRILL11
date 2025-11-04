@@ -4,6 +4,7 @@ from sdl2 import SDL_KEYDOWN, SDLK_SPACE, SDLK_RIGHT, SDL_KEYUP, SDLK_LEFT
 import game_world
 import game_framework
 
+from zombie import Zombie
 from ball import Ball
 from state_machine import StateMachine
 
@@ -15,21 +16,12 @@ time_out = lambda e: e[0] == 'TIMEOUT'
 
 def right_down(e):
     return e[0] == 'INPUT' and e[1].type == SDL_KEYDOWN and e[1].key == SDLK_RIGHT
-
-
 def right_up(e):
     return e[0] == 'INPUT' and e[1].type == SDL_KEYUP and e[1].key == SDLK_RIGHT
-
-
 def left_down(e):
     return e[0] == 'INPUT' and e[1].type == SDL_KEYDOWN and e[1].key == SDLK_LEFT
-
-
 def left_up(e):
     return e[0] == 'INPUT' and e[1].type == SDL_KEYUP and e[1].key == SDLK_LEFT
-
-
-
 # Boy의 Run Speed 계산
 
 # Boy Run Speed
@@ -43,11 +35,6 @@ RUN_SPEED_PPS = (RUN_SPEED_MPS * PIXEL_PER_METER)
 TIME_PER_ACTION = 0.5
 ACTION_PER_TIME = 1.0 / TIME_PER_ACTION
 FRAMES_PER_ACTION = 8
-
-
-
-
-
 
 
 class Idle:
@@ -75,8 +62,6 @@ class Idle:
             self.boy.image.clip_draw(int(self.boy.frame) * 100, 300, 100, 100, self.boy.x, self.boy.y)
         else: # face_dir == -1: # left
             self.boy.image.clip_draw(int(self.boy.frame) * 100, 200, 100, 100, self.boy.x, self.boy.y)
-
-
 class Sleep:
 
     def __init__(self, boy):
@@ -100,9 +85,6 @@ class Sleep:
             self.boy.image.clip_composite_draw(int(self.boy.frame) * 100, 300, 100, 100, 3.141592/2, '', self.boy.x - 25, self.boy.y - 25, 100, 100)
         else:
             self.boy.image.clip_composite_draw(int(self.boy.frame) * 100, 200, 100, 100, -3.141592/2, '', self.boy.x + 25, self.boy.y - 25, 100, 100)
-
-
-
 class Run:
     def __init__(self, boy):
         self.boy = boy
@@ -126,8 +108,6 @@ class Run:
             self.boy.image.clip_draw(int(self.boy.frame) * 100, 100, 100, 100, self.boy.x, self.boy.y)
         else: # face_dir == -1: # left
             self.boy.image.clip_draw(int(self.boy.frame) * 100, 0, 100, 100, self.boy.x, self.boy.y)
-
-
 class Boy:
     def __init__(self):
 
@@ -174,6 +154,9 @@ class Boy:
             game_world.add_object(ball, 1)
             game_world.add_collision_pair('grass:ball', None, ball)
             game_world.add_collision_pair('boy:ball', None, ball)
+            # game_world.add_collision_pair('ball:zombie', ball, None)
+            # for zombie in zombies:
+            #     game_world.add_collision_pair('boy:zombie', None, zombie)
 
     def get_bb(self):
         #상태에 따라 다르려면 스테이트머신에게 넘긴다.
@@ -182,3 +165,5 @@ class Boy:
     def handle_collision(self, group, other):
         if group == 'boy:ball':
             self.ball_count += 1
+        # elif group == 'boy:zombie':
+        #     self.stopped = True
